@@ -41,7 +41,7 @@ def main():
             if count > max_attempts:
                 break
 
-    for r in sudoku_puzzle: print r
+    for r in sudoku_puzzle: print(r)
 
 
 if __name__ == "__main__":
