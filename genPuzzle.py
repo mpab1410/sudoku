@@ -99,7 +99,7 @@ class Puzzle:
         #   check if numbers are between 1 and 9 (inclusive)
         for row in self.board:
             for num in row:
-                if num is not in range(1, 9):
+                if num not in range(1, 10):
                     return False
         
         #   check rows for duplicates
