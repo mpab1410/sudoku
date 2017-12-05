@@ -96,6 +96,12 @@ class Puzzle:
         return hard_puzzle
 
     def verify(self):
+        #   check if numbers are between 1 and 9 (inclusive)
+        for row in self.board:
+            for num in row:
+                if num is not in range(1, 9):
+                    return False
+        
         #   check rows for duplicates
         for row in self.board:
             print row
