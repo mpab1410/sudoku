@@ -2,7 +2,6 @@ import random
 
 
 class Puzzle:
-
     def __init__(self):
         max_attempts = 100  # stops the program after 100 attempts
         count = 1000
@@ -43,10 +42,13 @@ class Puzzle:
                 if count > max_attempts:
                     break
 
-        self.completePuzzle = sudoku_puzzle
+        self.board = sudoku_puzzle
+
+    def set_board(self, value):
+        self.board = value
 
     def easy(self):
-        easy_puzzle = self.completePuzzle
+        easy_puzzle = self.board
         to_remove = 48
 
         rand_row = random.randint(0, 8)
@@ -62,7 +64,7 @@ class Puzzle:
         return easy_puzzle
 
     def medium(self):
-        medium_puzzle = self.completePuzzle
+        medium_puzzle = self.board
         to_remove = 54
 
         rand_row = random.randint(0, 8)
@@ -78,7 +80,7 @@ class Puzzle:
         return medium_puzzle
 
     def hard(self):
-        hard_puzzle = self.completePuzzle
+        hard_puzzle = self.board
         to_remove = 60
 
         rand_row = random.randint(0, 8)
@@ -92,3 +94,30 @@ class Puzzle:
             rand_col = random.randint(0, 8)
 
         return hard_puzzle
+
+    def verify(self):
+        #   check rows for duplicates
+        for row in self.board:
+            print row
+            print len(set(row))
+            if len(set(row)) != 9:
+                return False
+
+        # check columns for duplicates
+        for i in range(0, len(self.board), 1):
+            row = []
+            for j in range(0, len(self.board[i]), 1):
+                row.append(self.board[j][i])
+            if len(set(row)) != 9:
+                return False
+
+        # check sub-matrix for duplicates
+        for i in range(1, 8, 3):
+            for j in range(1, 8, 3):
+                sub_matrix = [self.board[i - 1][j - 1], self.board[i][j - 1], self.board[i + 1][j - 1],
+                              self.board[i - 1][j], self.board[i][j], self.board[i + 1][j],
+                              self.board[i - 1][j + 1], self.board[i][j + 1], self.board[i + 1][j + 1]]
+                if len(set(sub_matrix)) != 9:
+                    return False
+
+        return True
