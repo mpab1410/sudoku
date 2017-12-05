@@ -121,7 +121,7 @@ class Puzzle:
         for i in range(1, 8, 3):
             for j in range(1, 8, 3):
                 sub_matrix = [self.board[i - 1][j - 1], self.board[i][j - 1], self.board[i + 1][j - 1],
-                              self.board[i - 1][j],     self.board[i][j], self.board[i + 1][j],
+                              self.board[i - 1][j],     self.board[i][j],     self.board[i + 1][j],
                               self.board[i - 1][j + 1], self.board[i][j + 1], self.board[i + 1][j + 1]]
                 if len(set(sub_matrix)) != 9:
                     return False
