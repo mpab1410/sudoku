@@ -1,0 +1,35 @@
+Michael Bailey - Sudoku - CS 396 - Michael Bailey, Bailey Henson, Brian Bulka
+
+Work Distribution
+Bailey Henson worked mainly on the GUI as well as generating a board. He also made the puzzle generator with different difficulties.
+Brian Bulka worked mostly with testing, organization, and helping write the backtracking algorithm to solve a partial puzzle
+I worked on determining if a board was valid, backtracking to solve a partial board, and some testing and other small functions.
+
+
+How It Works
+A user will be prompted to choose a puzzle by difficulty. Then, a complete board will be generated. Once that occurs, random slots
+will be taken off the board. The amount of slots taken will depend on the difficulty chosen. Once this is done, we use the
+backtracking algorithm to determine if the randomly generated partial board is solveable. We then use a verification function
+to determine if the backtracking algorithm generated a valid answer. If so, we give the board to the user for them to solve.
+Once they click submit, their answer is checked using the same verification function to see if it is valid. There is also a "Give Up"
+option which will give the solution that the backtracking algorithm created.
+
+
+Issues
+For the most part, we did not run into any major issues. There was a confusing moment towards the end where I didn't realize
+Bailey was writing in Python 2.7 instead of Python 3.6, which is what I was writing it in. Though, we were able to make everything
+work regardless.
+
+
+Other Notes
+We made use of a proper debugger in this project a couple of times, which was extremely helpful. I can say that we will definitely
+be using proper debuggers more often now that we understand how they work for the most part.
+
+
+Installation
+This project was written in Python 2.7. To install Python 2.7, go here: https://www.python.org/downloads/release/python-2714/
+
+I am sure you know how to run a Python file, but I included some directions for documentation sake.
+
+Be sure to run using the Python 2 interpreter. Run the program using the Sudoku.py file. If Python 2 is your default, run
+by entering "python Sudoku.py". If not, locate your Python27 folder and run using the interpreter in that folder ("C:\path\to\your\Python27\python Sudoku.py")
