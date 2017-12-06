@@ -79,16 +79,18 @@ class Board(tk.Frame):
             return widget.cget('text')
 
 
-
 def easy_mode(self):
     easy_button.destroy()
     medium_button.destroy()
     hard_button.destroy()
     sudoku = Puzzle()
     t = Board(self, 9, 9, sudoku.easy())
-    t.pack(side="top", fill="x")
+    t.pack(side="left", padx=5, pady=5)
     submit_button = tk.Button(self, text="Check Answers", command=lambda: submit_answers(t))
-    submit_button.pack()
+    submit_button.pack(side="left", padx=5, pady=5)
+    global solve_button
+    solve_button = tk.Button(self, text="Solve for Me", command=lambda: give_up(self, sudoku, t))
+    solve_button.pack(side="left", padx=5, pady=5)
 
 
 def medium_mode(self):
@@ -96,11 +98,13 @@ def medium_mode(self):
     medium_button.destroy()
     hard_button.destroy()
     sudoku = Puzzle()
-    sudoku = sudoku.medium()
-    t = Board(self, 9, 9, sudoku)
-    t.pack(side="top", fill="x")
+    t = Board(self, 9, 9, sudoku.medium())
+    t.pack(side="left", padx=5, pady=5)
     submit_button = tk.Button(self, text="Check Answers", command=lambda: submit_answers(t))
-    submit_button.pack()
+    submit_button.pack(side="left", padx=5, pady=5)
+    global solve_button
+    solve_button = tk.Button(self, text="Solve for Me", command=lambda: give_up(self, sudoku, t))
+    solve_button.pack(side="left", padx=5, pady=5)
 
 
 def hard_mode(self):
@@ -108,11 +112,13 @@ def hard_mode(self):
     medium_button.destroy()
     hard_button.destroy()
     sudoku = Puzzle()
-    sudoku = sudoku.hard()
-    t = Board(self, 9, 9, sudoku)
-    t.pack(side="top", fill="x")
+    t = Board(self, 9, 9, sudoku.hard())
+    t.pack(side="left", padx=5, pady=5)
     submit_button = tk.Button(self, text="Check Answers", command=lambda: submit_answers(t))
-    submit_button.pack()
+    submit_button.pack(side="left", padx=5, pady=5)
+    global solve_button
+    solve_button = tk.Button(self, text="Solve for Me", command=lambda: give_up(self, sudoku, t))
+    solve_button.pack(side="left", padx=5, pady=5)
 
 
 def submit_answers(table):
@@ -163,15 +169,21 @@ def verify(board):
     return True
 
 
+def give_up(self, puzzle, board):
+    puzzle.solve()
+    board = Board(self, 9, 9, puzzle.board)
+    board.pack(side="right", padx=5, pady=5)
+    solve_button.destroy()
+
+
+
+# tests for input, only numbers allowed
 def testVal(inStr, i, acttyp):
     ind = int(i)
     if acttyp == '1':  # insert
         if not inStr[ind].isdigit():
             return False
     return True
-
-
-
 
 
 if __name__ == "__main__":
