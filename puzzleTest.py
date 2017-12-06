@@ -1,6 +1,6 @@
 import time
 
-from mb_puzzle import Puzzle
+from genPuzzle import Puzzle
 
 
 def main():
@@ -8,19 +8,16 @@ def main():
     sudoku = Puzzle()
     end = int(round(time.time() * 1000))
     printPuzzle(sudoku, 'Initialized Sudoku Board. Time: {}ms'.format(end - start))
+    easyBoard = Puzzle()
+    verified = False
+    count = 1
     start = int(round(time.time() * 1000))
-    sudoku.set_value(1, 5, 6)
-    sudoku.set_value(1, 6, 6)
+    easyBoard.set_board(sudoku.hard())
+    printPuzzle(easyBoard, 'Result of sudoku.easy().')
+    easyBoard.solve()
+    printPuzzle(easyBoard, 'Result of easyBoard.solve().')
     end = int(round(time.time() * 1000))
-    printPuzzle(sudoku, 'Set value of [1,5] to 6. Time: {}ms'.format(end - start))
-    start = int(round(time.time() * 1000))
-    sudoku.generate()
-    end = int(round(time.time() * 1000))
-    printPuzzle(sudoku, 'Generated Puzzle. Time: {}ms'.format(end - start))
-    start = int(round(time.time() * 1000))
-    verified = sudoku.verify()
-    end = int(round(time.time() * 1000))
-    print("Result of Verify: {}. Time: {}ms".format(verified, end - start))
+    printPuzzle(easyBoard, "Result of Puzzle. Time: {}ms".format(end - start))
 
 
 def printPuzzle(puzzle, title):

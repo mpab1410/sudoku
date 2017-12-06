@@ -136,3 +136,50 @@ class Puzzle:
                     return False
 
         return True # at this point, if all tests pass, it is a valid sudoku board
+    
+    def check_row(self, rowIndex, num):
+        return num in self.board[rowIndex]
+
+    def check_col(self, colIndex, num):
+        col = list()
+        for j in range(len(self.board[colIndex])):
+            col.append(self.board[j][colIndex])
+        return num in col
+
+    def check_mat(self, i, j, num):
+        if i in range(0, 3):
+            i = 1
+        if i in range(3, 6):
+            i = 4
+        if i in range(6, 9):
+            i = 7
+        if j in range(0, 3):
+            j = 1
+        if j in range(3, 6):
+            j = 4
+        if j in range(6, 9):
+            j = 7
+        
+        subMatrix = [self.board[i - 1][j - 1], self.board[i][j - 1], self.board[i + 1][j - 1], self.board[i - 1][j], self.board[i][j], self.board[i + 1][j], self.board[i - 1][j + 1], self.board[i][j + 1], self.board[i + 1][j + 1]]
+        return num in subMatrix
+
+    def empty(self):
+        for i in range(len(self.board)):
+            for j in range(len(self.board[i])):
+                if self.board[i][j] == 0:
+                    return i, j
+        return False, False
+
+    def solve(self):
+        row, col = 0, 0
+        row, col = self.empty()
+        if isinstance(row, bool):
+            return True
+
+        for n in range(1, 10):
+            if not self.check_row(row, n) and not self.check_col(col, n) and not self.check_mat(row, col, n):
+                self.set_value(row, col, n)
+                if self.solve():
+                    return True
+                self.set_value(row, col, 0)
+        return False
