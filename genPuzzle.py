@@ -47,6 +47,12 @@ class Puzzle:
     def set_board(self, value):
         self.board = value
 
+    #function that sets the value of a cell in a board
+    #input: self, 1D index, 2D index, number to assign
+    #output: none
+    def set_value(self, i, j, num):
+        self.board[i][j] = num
+
     def easy(self):
         easy_puzzle = self.board
         to_remove = 48
@@ -95,29 +101,85 @@ class Puzzle:
 
         return hard_puzzle
 
+    #function which tells if a board is a verified sudoku puzzle
+    #input: self
+    #output: boolean
     def verify(self):
+        #   check if numbers are between 1 and 9 (inclusive)
+        for row in self.board: # collect each row
+            for num in row: # collect each value in the row
+                if num not in range(1, 10): # if the value is not between 1-9, return false
+                    return False
+        
         #   check rows for duplicates
-        for row in self.board:
-            print row
-            print len(set(row))
-            if len(set(row)) != 9:
+        for row in self.board: 
+            #print row          not sure if this is needed anymore. uncomment if it is still needed.
+            #print len(set(row))
+            if len(set(row)) != 9: # if the set (which only contains unique numbers) is not of length 9 (there was a duplicate number between 1-9), return false
                 return False
 
-        # check columns for duplicates
+        #   check columns for duplicates
         for i in range(0, len(self.board), 1):
-            row = []
+            col = []
             for j in range(0, len(self.board[i]), 1):
-                row.append(self.board[j][i])
-            if len(set(row)) != 9:
+                col.append(self.board[j][i]) # append values of column into array, convert to set, and check set length
+            if len(set(col)) != 9:
                 return False
 
-        # check sub-matrix for duplicates
+        #   check sub-matrix for duplicates
         for i in range(1, 8, 3):
             for j in range(1, 8, 3):
-                sub_matrix = [self.board[i - 1][j - 1], self.board[i][j - 1], self.board[i + 1][j - 1],
-                              self.board[i - 1][j], self.board[i][j], self.board[i + 1][j],
-                              self.board[i - 1][j + 1], self.board[i][j + 1], self.board[i + 1][j + 1]]
+                sub_matrix = [self.board[i - 1][j - 1], self.board[i][j - 1], self.board[i + 1][j - 1], 
+                              self.board[i - 1][j],     self.board[i][j],     self.board[i + 1][j], 
+                              self.board[i - 1][j + 1], self.board[i][j + 1], self.board[i + 1][j + 1]] # create submatrix as 1-dim array, convert to set, and check length
                 if len(set(sub_matrix)) != 9:
                     return False
 
-        return True
+        return True # at this point, if all tests pass, it is a valid sudoku board
+    
+    def check_row(self, rowIndex, num):
+        return num in self.board[rowIndex]
+
+    def check_col(self, colIndex, num):
+        col = list()
+        for j in range(len(self.board[colIndex])):
+            col.append(self.board[j][colIndex])
+        return num in col
+
+    def check_mat(self, i, j, num):
+        if i in range(0, 3):
+            i = 1
+        if i in range(3, 6):
+            i = 4
+        if i in range(6, 9):
+            i = 7
+        if j in range(0, 3):
+            j = 1
+        if j in range(3, 6):
+            j = 4
+        if j in range(6, 9):
+            j = 7
+        
+        subMatrix = [self.board[i - 1][j - 1], self.board[i][j - 1], self.board[i + 1][j - 1], self.board[i - 1][j], self.board[i][j], self.board[i + 1][j], self.board[i - 1][j + 1], self.board[i][j + 1], self.board[i + 1][j + 1]]
+        return num in subMatrix
+
+    def empty(self):
+        for i in range(len(self.board)):
+            for j in range(len(self.board[i])):
+                if self.board[i][j] == 0:
+                    return i, j
+        return False, False
+
+    def solve(self):
+        row, col = 0, 0
+        row, col = self.empty()
+        if isinstance(row, bool):
+            return True
+
+        for n in range(1, 10):
+            if not self.check_row(row, n) and not self.check_col(col, n) and not self.check_mat(row, col, n):
+                self.set_value(row, col, n)
+                if self.solve():
+                    return True
+                self.set_value(row, col, 0)
+        return False
