@@ -9,7 +9,7 @@ class Puzzle:
         while count > max_attempts:
             # create lists for puzzle
             sudoku_puzzle = []
-            for i in range(9):
+            for i in range(9): #fills matrix to create puzzle board, i for row and j for column
                 row = []
                 for j in range(9):
                     row.append(0)
@@ -23,26 +23,26 @@ class Puzzle:
                     for h in range(9):
                         this_col.append(sudoku_puzzle[h][col])
 
-                    sub_col = int(col / 3)
-                    sub_row = int(row / 3)
+                    sub_col = int(col / 3) 
+                    sub_row = int(row / 3) 
                     sub_mat = []
-                    for subR in range(3):
-                        for subC in range(3):
+                    for subR in range(3): #sets up sub row
+                        for subC in range(3): #sets up sub column
                             sub_mat.append(
-                                sudoku_puzzle[sub_row * 3 + subR][sub_col * 3 + subC])
+                                sudoku_puzzle[sub_row * 3 + subR][sub_col * 3 + subC]) #keeps track of the small 3x3 board in the 9x9 that the numbers follow
                     rand_val = 0
                     count = 0
-                    while rand_val in this_row or rand_val in this_col or rand_val in sub_mat:
+                    while rand_val in this_row or rand_val in this_col or rand_val in sub_mat: #checks for the number in the sub matrix(3x3) and the whole row and column
                         rand_val = random.randint(1, 9)
                         count += 1
 
-                        if count > max_attempts:
+                        if count > max_attempts: #keeps running as long as it hasn't taken 100 attempts, breaks to next outer loop
                             break
                     sudoku_puzzle[row][col] = rand_val
 
-                    if count > max_attempts:
+                    if count > max_attempts: #keeps running as long as it hasn't taken 100 attempts, breaks to next outer loop
                         break
-                if count > max_attempts:
+                if count > max_attempts: #keeps running as long as it hasn't taken 100 attempts, breaks to next outer loop
                     break
 
         self.board = sudoku_puzzle
@@ -54,6 +54,7 @@ class Puzzle:
     def set_value(self, i, j, num):
         self.board[i][j] = num
 
+    #function to create an easy difficulty board
     def easy(self):
         easy_puzzle = self.board
         to_remove = 48
@@ -61,8 +62,9 @@ class Puzzle:
         rand_row = random.randint(0, 8)
         rand_col = random.randint(0, 8)
 
-        while to_remove > 0:
-            if easy_puzzle[rand_row][rand_col] != 0:
+        #loop keeps erasing random numbers from board until it meets the set number of 48
+        while to_remove > 0: #keeps erasing numbers until the to_remove quota is met
+            if easy_puzzle[rand_row][rand_col] != 0: #checks to see if the spot on the board is empty or has a value, empty spaces have value of 0
                 easy_puzzle[rand_row][rand_col] = 0
                 to_remove -= 1
             rand_row = random.randint(0, 8)
@@ -70,6 +72,7 @@ class Puzzle:
 
         return easy_puzzle
 
+    #function to create a medium difficulty board
     def medium(self):
         medium_puzzle = self.board
         to_remove = 54
@@ -77,8 +80,9 @@ class Puzzle:
         rand_row = random.randint(0, 8)
         rand_col = random.randint(0, 8)
 
-        while to_remove > 0:
-            if medium_puzzle[rand_row][rand_col] != 0:
+        #removes 54 numbers from the board to make it harder than the easy board
+        while to_remove > 0: #keeps erasing numbers until the to_remove quota is met
+            if medium_puzzle[rand_row][rand_col] != 0: #checks to see if the spot on the board is empty or has a value, empty spaces have value of 0
                 medium_puzzle[rand_row][rand_col] = 0
                 to_remove -= 1
             rand_row = random.randint(0, 8)
@@ -86,15 +90,17 @@ class Puzzle:
 
         return medium_puzzle
 
+    #function to create a high difficulty board
     def hard(self):
         hard_puzzle = self.board
         to_remove = 60
 
-        rand_row = random.randint(0, 8)
-        rand_col = random.randint(0, 8)
+        rand_row = random.randint(0, 8) #random row in the board
+        rand_col = random.randint(0, 8) #random column in the board
 
-        while to_remove > 0:
-            if hard_puzzle[rand_row][rand_col] != 0:
+        #removes 60 numbers from the board to make it harder than the medium board
+        while to_remove > 0: #keeps erasing numbers until the to_remove quota is met
+            if hard_puzzle[rand_row][rand_col] != 0: #checks to see if the spot on the board is empty or has a value, empty spaces have value of 0
                 hard_puzzle[rand_row][rand_col] = 0
                 to_remove -= 1
             rand_row = random.randint(0, 8)
