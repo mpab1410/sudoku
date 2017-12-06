@@ -17,7 +17,7 @@ def main():
     easyBoard.solve()
     printPuzzle(easyBoard, 'Result of easyBoard.solve().')
     end = int(round(time.time() * 1000))
-    printPuzzle(easyBoard, "Result of Puzzle. Time: {}ms".format(end - start))
+    print("Result of Puzzle: {}. Time: {}ms".format(easyBoard.verify(), end - start))
 
 
 def printPuzzle(puzzle, title):
